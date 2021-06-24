@@ -7,6 +7,3 @@ def test_check_sum_of_four():
     three = [4, 5, 0]
     four = [-1, 3, 6]
     assert check_sum_of_four(one, two, three, four) == 2
-
-
-test_check_sum_of_four()
