@@ -68,6 +68,6 @@ def test_short_case():
     assert not check_fibonacci(data_for_check3)
 
 
-test_fibonacci_case()
-test_non_fibonacci_case()
-test_short_case()
+#test_fibonacci_case()
+#test_non_fibonacci_case()
+#test_short_case()
