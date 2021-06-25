@@ -11,7 +11,7 @@ Example 2:
 Input: [2,2,1,1,1,2,2]
 Output: 2, 1
 """
-from typing import List, Tuple, Dict
+from typing import List, Dict, Tuple
 
 
 def find_maximum(d: Dict[int, int]) -> int:
