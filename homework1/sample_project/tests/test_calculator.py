@@ -14,8 +14,3 @@ def test_negative_case():
 def test_zero_case():
     """Testing that a = zero gives False"""
     assert not check_power_of_2(0)
-
-
-test_positive_case()
-test_negative_case()
-test_zero_case()
