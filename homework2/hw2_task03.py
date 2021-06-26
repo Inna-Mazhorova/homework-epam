@@ -1,5 +1,5 @@
-import itertools
 from typing import List, Any
+import itertools
 
 
 """
