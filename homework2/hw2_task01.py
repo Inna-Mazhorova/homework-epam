@@ -1,6 +1,5 @@
 from typing import List
 
-
 """
 Given a file containing text. Complete using only default collections:
     1) Find 10 longest words consisting from largest amount of unique symbols
@@ -27,13 +26,6 @@ def get_longest_diverse_words(file_path: str) -> List[str]:
     return [i[0] for i in list_words_clean_diverse[:10]]
 
 
-print(
-    get_longest_diverse_words(
-        "C:/Users/Lantana/PycharmProjects/homework-epam/tests/homework2/data.txt"
-    )
-)
-
-
 def get_rarest_char(file_path: str) -> List[str]:
     with open(file_path, "r") as infile:
         words = infile.read().split()
@@ -52,9 +44,6 @@ def get_rarest_char(file_path: str) -> List[str]:
         if elements[i] == 1:
             minimum_list.append(i)
     return minimum_list
-
-
-# print(get_rarest_char("C:/Users/Lantana/PycharmProjects/homework-epam/homework2/data1.txt"))
 
 
 def count_punctuation_chars(file_path: str) -> int:
@@ -85,9 +74,6 @@ def count_punctuation_chars(file_path: str) -> int:
     return count
 
 
-# print(count_punctuation_chars("C:/Users/Lantana/PycharmProjects/homework-epam/tests/homework2/data.txt"))
-
-
 def count_non_ascii_chars(file_path: str) -> int:
 
     with open(file_path, "r") as infile:
@@ -98,9 +84,6 @@ def count_non_ascii_chars(file_path: str) -> int:
         text_clean = " ".join(words_clean)
     non_ascii_count = len("".join(filter(lambda x: ord(x) > 127, text_clean)))
     return non_ascii_count
-
-
-# print(count_non_ascii_chars("C:/Users/Lantana/PycharmProjects/homework-epam/tests/homework2/data.txt"))
 
 
 def get_most_common_non_ascii_char(file_path: str) -> str:
@@ -119,6 +102,3 @@ def get_most_common_non_ascii_char(file_path: str) -> str:
             non_ascii_elements[i] += 1
     maximum = max(non_ascii_elements, key=lambda x: non_ascii_elements[x])
     return maximum
-
-
-# print(get_most_common_non_ascii_char("C:/Users/Lantana/PycharmProjects/homework-epam/tests/homework2/data.txt"))
