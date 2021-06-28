@@ -41,7 +41,21 @@ dict_ascii = {
 }
 
 
-def custom_range(stop, start="a", step=1):
+def custom_range(his_ascii: str, fakestop: str, *args: List[Any]) -> List[str]:
+    if len(args) > 2:
+        raise Exception("funcion expects 2, 3 or 4 arguments only")
+    elif len(args) == 2:
+        start = fakestop
+        step = args[1]
+        stop = args[0]
+    elif len(args) == 1:
+        start = fakestop
+        step = 1
+        stop = args[0]
+    else:
+        start = "a"
+        step = 1
+        stop = fakestop
     stop_num = dict_ascii[stop]
     start_num = dict_ascii[start]
     counter = start_num
@@ -56,8 +70,3 @@ def custom_range(stop, start="a", step=1):
             result.append(string.ascii_lowercase[counter])
             counter += step
         return result
-
-
-print(custom_range("g"))
-print(custom_range("p", start="g", step=1))
-print(custom_range("g", start="p", step=-2))
