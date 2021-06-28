@@ -1,12 +1,5 @@
 from typing import List
 
-# Given a file containing text. Complete using only default collections:
-#   1) Find 10 longest words consisting from largest amount of unique symbols
-#  2) Find rarest symbol for document
-# 3) Count every punctuation char
-# 4) Count every non ascii char
-# 5) Find most common non ascii char for document
-
 
 def get_longest_diverse_words(file_path: str) -> List[str]:
     with open(file_path, "r") as infile:
