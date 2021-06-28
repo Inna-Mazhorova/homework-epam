@@ -1,4 +1,4 @@
-from homework2.hw2_task01 import get_longest_diverse_words
+from homework2.hw2_task01_part1 import get_longest_diverse_words
 
 
 def test_get_longest_diverse_words():
