@@ -2,7 +2,6 @@ from typing import List
 
 
 def count_non_ascii_chars(file_path: str) -> int:
-
     with open(file_path, "r") as infile:
         words = infile.read().split()
         words_clean = list(
