@@ -24,7 +24,6 @@ def cache(times):
             else:
                 result = func(*args, **kwargs)
                 return result
-            print(f"{wrapper_count_times.num_times} вызов функции {func.__name__!r}")
             return func(*args, **kwargs)
 
         wrapper_count_times.num_times = 0
