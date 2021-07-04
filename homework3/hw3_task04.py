@@ -17,6 +17,6 @@ def is_armstrong(number: int) -> bool:
     squares = list(map(lambda x: x ** len(digits), digits))
     sum_number = sum(squares)
     if sum_number == number:
-        return "Is Armstrong number"
+        return True
     else:
-        return "Is not Armstrong number"
+        return False

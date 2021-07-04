@@ -5,34 +5,32 @@ import functools
 # Would give out cached value up to times number only. Example:
 
 
-def cache(times):
-    def count_times(func):
+def cache(times=3):
+    def wrapper_count_times(func):
         memo = []
 
         @functools.wraps(func)
-        def wrapper_count_times(*args, **kwargs):
-            wrapper_count_times.num_times += 1
+        def count_times(*args, **kwargs):
+            count_times.num_times += 1
 
-            if wrapper_count_times.num_times == 1:
+            if count_times.num_times == 1:
                 result = func(*args, **kwargs)
                 memo.append(result)
                 return result
-            elif (wrapper_count_times.num_times >= 2) and (
-                wrapper_count_times.num_times <= times
-            ):
+            elif (count_times.num_times >= 2) and (count_times.num_times <= times):
                 return memo[0]
             else:
                 result = func(*args, **kwargs)
                 return result
             return func(*args, **kwargs)
 
-        wrapper_count_times.num_times = 0
-        return wrapper_count_times
+        count_times.num_times = 0
+        return count_times
 
-    return count_times
+    return wrapper_count_times
 
 
-@cache(times=3)
+@cache(times=0)
 def our_function():
     func_output = input("? ")
     return func_output

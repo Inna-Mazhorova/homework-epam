@@ -66,7 +66,7 @@ sample_data = [
 ]
 
 
-def test_make_filter():
+def test_if_make_filter_works():
     assert hw3_task03.make_filter(name="polly", type="bird").apply(sample_data) == [
         {"is_dead": True, "kind": "parrot", "type": "bird", "name": "polly"}
     ]
