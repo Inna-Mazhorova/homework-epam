@@ -30,7 +30,7 @@ def cache(times=3):
     return wrapper_count_times
 
 
-@cache(times=0)
+@cache(times=3)
 def our_function():
     func_output = input("? ")
     return func_output
