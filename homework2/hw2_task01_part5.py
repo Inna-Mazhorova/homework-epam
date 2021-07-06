@@ -10,4 +10,3 @@ def get_most_common_non_ascii_char(file_path: str, encoding="unicode_escape") ->
         non_ascii_symbols_dict[i] += 1
     maximum = max(non_ascii_symbols_dict, key=lambda x: non_ascii_symbols_dict[x])
     return maximum
-
