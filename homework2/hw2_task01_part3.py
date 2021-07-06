@@ -1,26 +1,11 @@
-def count_punctuation_chars(file_path: str) -> int:
-    with open(file_path, "r") as infile:
-        words = infile.read().split()
-        words_clean = list(
-            map(lambda x: x.encode("ascii").decode("unicode_escape"), words)
-        )
-        text_clean = " ".join(words_clean)
+import string
+
+
+def count_punctuation_chars(file_path: str, encoding="unicode_escape") -> int:
+    with open(file_path, "r", encoding=encoding) as infile:
+        text = infile.read()
     count = 0
-    for i in range(0, len(text_clean)):
-        if text_clean[i] in (
-            "!",
-            ",",
-            "'",
-            ";",
-            '"',
-            ".",
-            "-",
-            "?",
-            "«",
-            "»",
-            "’",
-            "—",
-            ":",
-        ):
+    for i in range(0, len(text)):
+        if text[i] in string.punctuation:
             count = count + 1
     return count

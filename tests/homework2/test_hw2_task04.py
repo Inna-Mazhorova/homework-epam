@@ -1,9 +1,6 @@
-from homework2.hw2_task04 import decorate, func
+from homework2 import hw2_task04
 
 
 def test_cache():
-    cache_func = decorate(func)
-    some = 100, 200
-    val_1 = cache_func(*some)
-    val_2 = cache_func(*some)
-    assert val_1 is val_2
+    assert hw2_task04.function_square(2, 1) == 4
+    assert hw2_task04.function_square(1, 2) == 4

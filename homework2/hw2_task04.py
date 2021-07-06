@@ -1,4 +1,5 @@
-from typing import Callable
+import os
+import pickle
 
 # Write a function that accepts another function as an argument. Then it
 # should return such a function, so the every call to initial one
@@ -14,18 +15,27 @@ from typing import Callable
 # assert val_1 is val_2
 
 
-def func(a, b):
+def cached(cachefile):
+    # A function that creates a decorator which will use "cachefile" for caching the results of the decorated function
+    def decorator(func):
+        def wrapped(*args, **kwargs):
+            # if cache exists -> load it and return its content
+            if os.path.exists(cachefile):
+                with open(cachefile, "rb") as cachehandle:
+                    print("using cached result from '%s'" % cachefile)
+                    return pickle.load(cachehandle)
+            result = func(*args, **kwargs)
+            # write to cache file
+            with open(cachefile, "wb") as cachehandle:
+                print("saving result to cache '%s'" % cachefile)
+                pickle.dump(result, cachehandle)
+            return result
+
+        return wrapped
+
+    return decorator
+
+
+@cached("function_square.pickle")
+def function_square(a, b):
     return (a ** b) ** 2
-
-
-def decorate(func: Callable) -> Callable:
-    cache = {}
-
-    def cache_func(*some):
-        if some in cache:
-            return cache[some]
-        else:
-            cache[some] = func(*some)
-            return cache[some]
-
-    return cache_func

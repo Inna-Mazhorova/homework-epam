@@ -1,4 +1,5 @@
-from typing import Dict, List, Tuple
+from collections import defaultdict
+from typing import List, Tuple
 
 # Given an array of size n, find the most common and the least common elements.
 # The most common element is the element that appears more than n // 2 times.
@@ -7,24 +8,11 @@ from typing import Dict, List, Tuple
 # always exist in the array.
 
 
-def find_maximum(d: Dict[int, int]) -> int:
-    for elem, freq in d.items():
-        if freq == max(d.values()):
-            return elem
-
-
-def find_minimum(d: Dict[int, int]) -> int:
-    for elem, freq in d.items():
-        if freq == min(d.values()):
-            return elem
-
-
-def major_and_minor_elem(a: List[int]) -> Tuple[int, int]:
-    elements = {}
-    for i in a:
-        if i not in elements:
-            elements[i] = 1
-        else:
-            elements[i] += 1
-    result = (find_maximum(elements), find_minimum(elements))
+def major_and_minor_elem(elements_list: List[int]) -> Tuple[int, int]:
+    elements_dict = defaultdict(int)
+    for i in elements_list:
+        elements_dict[i] += 1
+    result = (max(elements_dict, key=elements_dict.get)), (
+        min(elements_dict, key=elements_dict.get)
+    )
     return result
