@@ -11,6 +11,3 @@ def get_longest_diverse_words(file_path: str, encoding="unicode_escape") -> List
     list_words_clean_diverse = list(words_clean_diverse.items())
     list_words_clean_diverse.sort(key=lambda i: len(i[1]), reverse=True)
     return [i[0] for i in list_words_clean_diverse[:10]]
-
-
-print(get_longest_diverse_words("data1.txt"))
