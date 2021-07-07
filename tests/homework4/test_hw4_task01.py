@@ -12,3 +12,5 @@
 
 #def test_number_returning_function_returns_number(test_file_creation):
 #    assert number_returning_function("path/to/open") == True
+
+print("код пока не работает")
