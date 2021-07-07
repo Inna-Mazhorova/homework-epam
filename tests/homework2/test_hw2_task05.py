@@ -21,7 +21,7 @@ def test_range_from_start_till_stop():
     ]
 
 
-def test_range_frtom_stop_till_start():
+def test_range_from_stop_till_start():
     assert custom_range(string.ascii_lowercase, "p", "g", -2) == [
         "p",
         "n",

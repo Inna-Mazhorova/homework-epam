@@ -11,37 +11,7 @@ from typing import Any, List
 # assert = custom_range(string.ascii_lowercase, 'p', 'g', -2) == ['p', 'n', 'l', 'j', 'h']
 
 
-dict_ascii = {
-    "a": 0,
-    "b": 1,
-    "c": 2,
-    "d": 3,
-    "e": 4,
-    "f": 5,
-    "g": 6,
-    "h": 7,
-    "i": 8,
-    "j": 9,
-    "k": 10,
-    "l": 11,
-    "m": 12,
-    "n": 13,
-    "o": 14,
-    "p": 15,
-    "q": 16,
-    "r": 17,
-    "s": 18,
-    "t": 19,
-    "u": 20,
-    "v": 21,
-    "w": 22,
-    "x": 23,
-    "y": 24,
-    "z": 25,
-}
-
-
-def custom_range(his_ascii: str, fakestop: str, *args: List[Any]) -> List[str]:
+def custom_range(symbols_list: str, fakestop: str, *args: List[Any]) -> List[str]:
     if len(args) > 2:
         raise Exception("funcion expects 2, 3 or 4 arguments only")
     elif len(args) == 2:
@@ -56,17 +26,17 @@ def custom_range(his_ascii: str, fakestop: str, *args: List[Any]) -> List[str]:
         start = "a"
         step = 1
         stop = fakestop
-    stop_num = dict_ascii[stop]
-    start_num = dict_ascii[start]
+    stop_num = symbols_list.find(stop)
+    start_num = symbols_list.find(start)
     counter = start_num
     result = []
     if step >= 0:
         while counter < stop_num:
-            result.append(string.ascii_lowercase[counter])
+            result.append(symbols_list[counter])
             counter += step
         return result
     else:
         while counter > stop_num:
-            result.append(string.ascii_lowercase[counter])
+            result.append(symbols_list[counter])
             counter += step
         return result

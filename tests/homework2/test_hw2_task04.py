@@ -2,5 +2,6 @@ from homework2 import hw2_task04
 
 
 def test_cache():
-    assert hw2_task04.function_square(2, 1) == 4
-    assert hw2_task04.function_square(1, 2) == 4
+    val1 = hw2_task04.func_square(100, 200)
+    val2 = hw2_task04.func_square(100, 200)
+    assert val1 == val2
