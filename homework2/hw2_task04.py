@@ -1,5 +1,3 @@
-from typing import Callable
-
 # Write a function that accepts another function as an argument. Then it
 # should return such a function, so the every call to initial one
 # should be cached.
