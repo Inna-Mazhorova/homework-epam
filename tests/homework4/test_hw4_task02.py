@@ -1,7 +1,4 @@
 import requests
-import requests_mock
-
-from homework4.hw4_task02 import count_dots_on_i
 
 
 def test_url(requests_mock):
