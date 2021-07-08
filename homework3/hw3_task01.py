@@ -7,18 +7,24 @@ import functools
 
 def cache(times=3):
     def wrapper_count_times(func):
-        memo = []
+        memo = {}
 
         @functools.wraps(func)
         def count_times(*args, **kwargs):
             count_times.num_times += 1
 
             if count_times.num_times == 1:
-                result = func(*args, **kwargs)
-                memo.append(result)
-                return result
+                memo[args] = func(*args)
+                # print("Writing to cache")
+                return memo[args]
             elif (count_times.num_times >= 2) and (count_times.num_times <= times):
-                return memo[0]
+                # print("From cache")
+                try:
+                    return memo[args]
+                except:
+                    memo[args] = func(*args)
+                    # print("Writing to cache")
+                    return memo[args]
             else:
                 result = func(*args, **kwargs)
                 return result
@@ -34,3 +40,8 @@ def cache(times=3):
 def our_function():
     func_output = input("? ")
     return func_output
+
+
+@cache(times=3)
+def quadro_func(a):
+    return a ** 2

@@ -23,11 +23,14 @@ def slow_calculate(value):
 
 if __name__ == "__main__":
     pool = Pool(cores_pc)
-    result = pool.imap_unordered(slow_calculate, range(10), cores_pc)
+    result_list = []
+    n = 1
     sum_slow_calculate = 0
-    for i in range(10):
-        sum_slow_calculate += next(result)
-    print(sum_slow_calculate)
+    for i in range(n):
+        result = pool.apply_async(slow_calculate(i))
+        result_list.append(result)
+    results = [result.get() for i in result_list]
+    print(sum(results))
 
 
 print("--- %s seconds ---" % (time.time() - start_time))
