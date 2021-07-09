@@ -1,3 +1,6 @@
+import pickle
+from typing import Callable
+
 # Write a function that accepts another function as an argument. Then it
 # should return such a function, so the every call to initial one
 # should be cached.
@@ -12,21 +15,19 @@
 # assert val_1 is val_2
 
 
-def decorate(func):
-    cache = {}
+def cache(func: Callable) -> Callable:
+    cachedict = {}
 
-    def cache_func(*some):
-        if some in cache:
-            print("From cache")
-            return cache[some]
-        else:
-            cache[some] = func(*some)
+    def cachefunc(*args):
+        hash = pickle.dumps(args)
+        if hash not in cachedict:
             print("Writing to cache")
-            return cache[some]
+            cachedict[hash] = func(*args)
+        return cachedict[hash]
 
-    return cache_func
+    return cachefunc
 
 
-@decorate
+@cache
 def func_square(a, b):
     return (a ** b) ** 2
