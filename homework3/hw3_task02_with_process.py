@@ -1,9 +1,8 @@
 import hashlib
-import os
 import random
 import struct
 import time
-from multiprocessing import Pool
+from multiprocessing import Process
 
 # Calculate total sum of slow_calculate() of all numbers starting from 0 to 500.
 # Calculation time should not take more than a minute. Use functional capabilities of multiprocessing module.
@@ -11,20 +10,25 @@ from multiprocessing import Pool
 
 start_time = time.time()
 
-cores_pc = os.cpu_count()
-
 
 def slow_calculate(value):
     """Some weird voodoo magic calculations"""
     time.sleep(random.randint(1, 3))
     data = hashlib.md5(str(value).encode()).digest()
-    return sum(struct.unpack("<" + "B" * len(data), data))
+    exit(sum(struct.unpack("<" + "B" * len(data), data)))
 
 
 if __name__ == "__main__":
-    with Pool(cores_pc) as pool:
-        print(sum(pool.map(slow_calculate, range(501))))
+    procs = []
+    for i in range(501):
+        proc = Process(target=slow_calculate, args=(i,))
+        procs.append(proc)
+        proc.start()
 
-end_time = time.time()
+    result = []
+    for proc in procs:
+        proc.join()
+        result.append(proc.exitcode)
+    print(sum(result))
 
-print("--- %s seconds ---" % (end_time - start_time))
+print("--- %s seconds ---" % (time.time() - start_time))

@@ -1,17 +1,14 @@
 import time
+from multiprocessing import Process
 
-from homework3.hw3_task02 import slow_calculate
+from homework3.hw3_task02_with_process import slow_calculate
 
 
-def test_time_spent_calculating_is_less_4_seconds():
-    start_time = time.time()
+def test_time_spent_calculating_is_less_60_seconds():
     if __name__ == "__main__":
-        concurrency = 4
-        sema = Semaphore(concurrency)
         procs = []
-        for i in range(4):
-            sema.acquire()
-            proc = Process(target=slow_calculate, args=(i, sema))
+        for i in range(501):
+            proc = Process(target=slow_calculate, args=(i,))
             procs.append(proc)
             proc.start()
 
@@ -21,5 +18,5 @@ def test_time_spent_calculating_is_less_4_seconds():
             result.append(proc.exitcode)
         print(sum(result))
 
-    end_time = time.time()
-    assert (end_time - start_time) <= 4
+        end_time = time.time()
+        assert (end_time - start_time) <= 60

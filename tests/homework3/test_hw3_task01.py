@@ -37,14 +37,17 @@ def test_cache_remembers_zero_times():
     assert times_called == 3
 
 
-def test_cache_remembers_zero_times():
+def test_cache_remembers_different_args():
     @hw3_task01.cache(times=2)
     def foo(*args):
         return args[0]
 
     val1 = foo(1)
     val2 = foo(1)
-    val4 = foo(2)
-    val3 = foo(1)
+    val3 = foo(2)
+    val4 = foo(1)
+    val5 = foo(2)
+
     assert val1 is val2
-    assert val4 is not val2
+    assert val3 is val5
+    assert val3 is not val2

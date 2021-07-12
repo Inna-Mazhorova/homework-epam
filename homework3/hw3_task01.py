@@ -9,30 +9,32 @@ import pickle
 def cache(times=3):
     def wrapper_count_times(func):
         memo = {}
+        times_called = 0
 
         @functools.wraps(func)
         def count_times(*args, **kwargs):
-            count_times.num_times += 1
+            nonlocal times_called
+            times_called += 1
             hash = pickle.dumps(args)
 
-            if count_times.num_times == 1:
+            if times_called == 1:
                 memo[hash] = func(*args)
                 print("Writing to cache")
                 return memo[hash]
-            elif 2 <= count_times.num_times <= times:
+            elif 2 <= times_called <= times:
                 print("From cache")
                 try:
                     return memo[hash]
                 except:
                     memo[hash] = func(*args)
                     print("Writing to cache")
+                    times_called -= 1
                     return memo[hash]
             else:
                 result = func(*args)
+                times_called = 0
                 return result
-            return func(*args)
 
-        count_times.num_times = 0
         return count_times
 
     return wrapper_count_times
@@ -41,4 +43,10 @@ def cache(times=3):
 @cache(times=3)
 def our_function():
     func_output = input("? ")
+    return func_output
+
+
+@cache(times=3)
+def func_quadro(x):
+    func_output = x * x
     return func_output
