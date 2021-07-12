@@ -2,7 +2,7 @@ import hashlib
 import random
 import struct
 import time
-from multiprocessing import Process
+from multiprocessing import Process, Semaphore
 
 # Calculate total sum of slow_calculate() of all numbers starting from 0 to 500.
 # Calculation time should not take more than a minute. Use functional capabilities of multiprocessing module.
@@ -11,17 +11,22 @@ from multiprocessing import Process
 start_time = time.time()
 
 
-def slow_calculate(value):
+def slow_calculate(value, sema):
     """Some weird voodoo magic calculations"""
     time.sleep(random.randint(1, 3))
+    # sema.acquire()
     data = hashlib.md5(str(value).encode()).digest()
     exit(sum(struct.unpack("<" + "B" * len(data), data)))
+    sema.release()
 
 
 if __name__ == "__main__":
+    concurrency = 4
+    sema = Semaphore(concurrency)
     procs = []
-    for i in range(501):
-        proc = Process(target=slow_calculate, args=(i,))
+    for i in range(4):
+        sema.acquire()
+        proc = Process(target=slow_calculate, args=(i, sema))
         procs.append(proc)
         proc.start()
 
@@ -33,11 +38,4 @@ if __name__ == "__main__":
 
 end_time = time.time()
 
-
-def time_calculating(end, start):
-    time_spent = end - start
-    return time_spent
-
-
-def test_time_spent_calculating_is_less_1_minute():
-    assert time_calculating(end_time, start_time) < 61
+print("--- %s seconds ---" % (end_time - start_time))
