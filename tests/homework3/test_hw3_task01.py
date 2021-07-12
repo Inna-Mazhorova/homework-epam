@@ -51,3 +51,4 @@ def test_cache_remembers_different_args():
     assert val1 is val2
     assert val3 is val5
     assert val3 is not val2
+    assert val4 is val2
