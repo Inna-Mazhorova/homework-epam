@@ -36,10 +36,10 @@ def inf_seq():
 
 
 fizz_buzz_generator = (
-    (lambda x: {1: x, 6: "Fizz", 10: "Buzz", 0: "FizzBuzz"}[x ** 4 % 15])(n + 1)
+    (lambda x: {1: x, 6: "fizz", 10: "buzz", 0: "fizzbuzz"}[x ** 4 % 15])(n + 1)
     for n in inf_seq()
 )
 
 k = 20
 array = [next(fizz_buzz_generator) for i in range(k)]
-print(array)
+#print(array)

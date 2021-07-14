@@ -19,6 +19,10 @@ def number_returning_function(file_path):
     try:
         with open(file_path) as fi:
             first_line = int(fi.readline().rstrip("\n"))
+    except FileNotFoundError as err:
+        return "I caught error:", err
+
+    try:
         if 1 <= first_line < 3:
             return True
         else:

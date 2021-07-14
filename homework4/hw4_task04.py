@@ -17,9 +17,13 @@ You will learn:
 
 def fizzbuzz(number: int) -> List[str]:
     """
-    Return true if number is even
+    Return true if List is fizzbuzz
     >>> fizzbuzz(20) == [1, 2, 'fizz', 4, 'buzz', 'fizz', 7, 8, 'fizz', 'buzz', 11, 'fizz', 13, 14, 'fizzbuzz', 16, 17, 'fizz', 19, 'buzz']
     True
+
+    Return false if List is not fizzbuzz
+    >>> fizzbuzz(20) == [1, 2, 'fizz', 4, 5, 'fizz', 7, 8, 'fizz', 'buzz', 11, 'fizz', 13, 14, 'fizzbuzz', 16, 17, 'fizz', 19, 'buzz']
+    False
 
     """
 
@@ -34,6 +38,3 @@ def fizzbuzz(number: int) -> List[str]:
         else:
             result.append(i)
     return result
-
-
-print(fizzbuzz(20))

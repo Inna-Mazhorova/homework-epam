@@ -17,15 +17,15 @@ Definition of done:
 
 def count_dots_on_i(url):
     try:
-        r = urllib.request.urlopen(url)
-        site_content = r.read()
-        encoding = r.info().get_content_charset()
-        site_content_html = site_content.decode(encoding)
+        with urllib.request.urlopen(url) as r:
 
-        counter = 0
-        for symbol in site_content_html:
-            if symbol == "i":
-                counter += 1
-        return counter
+            site_content = r.read()
     except Exception:
         return "Unreachable url"
+    try:
+        encoding = r.info().get_content_charset()
+        site_content_html = site_content.decode(encoding)
+        counter = site_content_html.count("i")
+        return counter
+    except Exception:
+        return "Problems with counting"
