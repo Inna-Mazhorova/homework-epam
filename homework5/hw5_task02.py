@@ -21,6 +21,7 @@ def print_result(func):
     def wrapper(*args, **kwargs):
         """Function-wrapper which print result of an original function"""
         result = func(*args, **kwargs)
+        wrapper.__original_func = wrapper
         print(result)
         return result
 
@@ -37,9 +38,10 @@ if __name__ == "__main__":
     custom_sum([1, 2, 3], [4, 5])
     custom_sum(1, 2, 3, 4)
 
-    print(custom_sum.__doc__)
-    print(custom_sum.__name__)
-    # without_print = custom_sum.__original_func
+    # print(custom_sum.__doc__)
+    # print(custom_sum.__name__)
+    print(custom_sum.__original_func)
+    without_print = custom_sum.__original_func
 
     # the result returns without printing
-    # without_print(1, 2, 3, 4)
+    without_print(1, 2, 3, 4)
