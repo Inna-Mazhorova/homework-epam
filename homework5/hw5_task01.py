@@ -1,4 +1,5 @@
 import datetime
+from typing import Any, Union
 
 """
 Необходимо создать 3 класса и взаимосвязь между ними (Student, Teacher,
@@ -34,43 +35,36 @@ Homework)
 
 
 class Teacher:
-    def __init__(self, last_name, first_name):
+    def __init__(self, last_name: str, first_name: str) -> None:
         self.last_name = last_name
         self.first_name = first_name
 
-    def create_homework(self, text, deadline):
-
-        self.text = text
-        self.deadline = datetime.timedelta(deadline)
-        self.created = datetime.datetime.now()
-        self.__class__ = Homework
-        return self
+    def create_homework(self, text: str, deadline: int) -> "SomeClass":
+        new_homework = Homework(text, deadline)
+        return new_homework
 
 
 class Homework:
-    def __init__(self, text, deadline):
-
+    def __init__(self, text: str, deadline: int) -> None:
         self.text = text
         self.deadline = datetime.timedelta(deadline)
         self.created = datetime.datetime.now()
+        if deadline < 1:
+            raise Exception("Deadline must be more than 1 day")
 
-    def is_active_method(self):
+    def is_active(self) -> Any:
         date_due = self.created + self.deadline
-        if self.created <= datetime.datetime.now() <= date_due:
-            return True
-        else:
-            return False
+        return True if (datetime.datetime.now() <= date_due) else False
 
 
 class Student:
-    def __init__(self, last_name, first_name):
+    def __init__(self, last_name: str, first_name: str) -> None:
         self.last_name = last_name
         self.first_name = first_name
 
-    def do_homework_method(self, homework):
-        self.homework = homework
-        if homework.is_active_method() == False:
+    def do_homework(self, homework: str) -> Union[None, "Homework"]:
+        if homework.is_active() == False:
             print("You are late")
-            pass
+            return None
         else:
             return homework
