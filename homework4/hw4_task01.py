@@ -15,17 +15,29 @@ Definition of done:
 """
 
 
-def number_returning_function(file_path):
+def file_opening_function(file_path):
     try:
         with open(file_path) as fi:
-            first_line = int(fi.readline().rstrip("\n"))
-    except FileNotFoundError as err:
-        return "I caught error:", err
-
+            lines = fi.readline()
+    except FileNotFoundError:
+        raise ValueError
     try:
-        if 1 <= first_line < 3:
-            return True
-        else:
-            return False
-    except ValueError:
-        raise
+        first_line = lines.rstrip("\n")
+    except Exception:
+        raise ValueError
+    try:
+        first_line_int = int(first_line)
+    except Exception:
+        raise ValueError
+    return first_line_int
+
+
+def number_returning_function(file_path):
+    first_line_int = file_opening_function(file_path)
+    if 1 <= first_line_int < 3:
+        return True
+    else:
+        return False
+
+
+print(number_returning_function("some_trying_file.txt"))
