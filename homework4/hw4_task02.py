@@ -1,4 +1,4 @@
-import urllib.request
+import requests
 
 """
 Write a function that accepts an URL as input
@@ -17,23 +17,20 @@ Definition of done:
 
 def read_url_func(url):
     try:
-        with urllib.request.urlopen(url) as r:
-
-            site_content = r.read()
+        with requests.get(url) as r:
+            site_content = r.text
     except urllib.error.URLError:
         raise ValueError("Unreachable", {url})
-    try:
-        encoding = r.info().get_content_charset()
-        site_content_html = site_content.decode(encoding)
-    except Exception:
-        raise ValueError("Unreachable", {url})
-    return site_content_html
+    return site_content
 
 
 def count_dots_on_i(url):
-    site_content_html = read_url_func(url)
+    site_content = read_url_func(url)
     try:
-        counter = site_content_html.count("i")
+        counter = site_content.count("i")
         return counter
     except Exception:
         return "Problems with counting"
+
+
+print(count_dots_on_i("https://example.com/"))
