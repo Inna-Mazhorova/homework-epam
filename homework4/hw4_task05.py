@@ -42,4 +42,3 @@ fizz_buzz_generator = (
 
 k = 20
 array = [next(fizz_buzz_generator) for i in range(k)]
-#print(array)
