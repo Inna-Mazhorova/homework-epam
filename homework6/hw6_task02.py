@@ -1,4 +1,5 @@
 import datetime
+from collections import defaultdict
 from typing import Any, Union
 
 """
@@ -41,14 +42,8 @@ Teacher
 """
 
 
-class Teacher:
-    def __init__(self, last_name: str, first_name: str) -> None:
-        self.last_name = last_name
-        self.first_name = first_name
-
-    def create_homework(self, text: str, deadline: int) -> "SomeClass":
-        new_homework = Homework(text, deadline)
-        return new_homework
+class DeadlineError(Exception):
+    pass
 
 
 class Homework:
@@ -59,19 +54,57 @@ class Homework:
         if deadline < 1:
             raise Exception("Deadline must be more than 1 day")
 
-    def is_active(self) -> Any:
+    def is_active(self) -> bool:
         date_due = self.created + self.deadline
-        return True if (datetime.datetime.now() <= date_due) else False
+        return datetime.datetime.now() <= date_due
 
 
-class Student:
+class HomeworkResult:
+    def __init__(self, author: str, homework: Homework, solution: str) -> None:
+        self.author = author
+        self.solution = solution
+        self.created = datetime.datetime.now()
+        if isinstance(homework, Homework):
+            self.homework = homework
+        else:
+            raise ValueError("Parameter you gave is not a Homework object")
+
+
+class Person:
     def __init__(self, last_name: str, first_name: str) -> None:
         self.last_name = last_name
         self.first_name = first_name
 
-    def do_homework(self, homework: str) -> Union[None, "Homework"]:
-        if homework.is_active() == False:
-            print("You are late")
-            return None
+
+class Teacher(Person):
+    homework_done = defaultdict(list)
+
+    def create_homework(self, text: str, deadline: int) -> Homework:
+        return Homework(text, deadline)
+
+    def check_homework(self, homework_result: HomeworkResult):
+        if (
+            len(homework_result.solution) < 5
+            or homework_result.homework in self.homework_done
+        ):
+            return False
         else:
-            return homework
+            self.homework_done[homework_result.homework] = homework_result
+            return True
+
+    @classmethod
+    def reset_results(cls, homework_unit=None):
+
+        if isinstance(homework_unit, Homework):
+            cls.homework_done[homework_unit] = []
+        else:
+            cls.homework_done.clear()
+
+
+class Student(Person):
+    def do_homework(self, homework: str, solution: str) -> Union[None, "Homework"]:
+        self.solution = solution
+        if homework.is_active() == False:
+            raise DeadlineError("You are late")
+        else:
+            return HomeworkResult(self, homework, solution)
