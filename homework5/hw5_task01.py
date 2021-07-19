@@ -40,8 +40,7 @@ class Teacher:
         self.first_name = first_name
 
     def create_homework(self, text: str, deadline: int) -> "SomeClass":
-        new_homework = Homework(text, deadline)
-        return new_homework
+        return Homework(text, deadline)
 
 
 class Homework:
@@ -50,11 +49,11 @@ class Homework:
         self.deadline = datetime.timedelta(deadline)
         self.created = datetime.datetime.now()
         if deadline < 1:
-            raise Exception("Deadline must be more than 1 day")
+            raise Exception("Deadline must be >= 1 day")
 
     def is_active(self) -> Any:
         date_due = self.created + self.deadline
-        return True if (datetime.datetime.now() <= date_due) else False
+        return datetime.datetime.now() <= date_due
 
 
 class Student:
@@ -63,7 +62,7 @@ class Student:
         self.first_name = first_name
 
     def do_homework(self, homework: str) -> Union[None, "Homework"]:
-        if homework.is_active() == False:
+        if not homework.is_active():
             print("You are late")
             return None
         else:
