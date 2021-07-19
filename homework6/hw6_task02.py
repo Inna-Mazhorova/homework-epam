@@ -1,6 +1,6 @@
 import datetime
 from collections import defaultdict
-from typing import Any, Union
+from typing import Union
 
 """
 В этом задании будем улучшать нашу систему классов из задания прошлой лекции
