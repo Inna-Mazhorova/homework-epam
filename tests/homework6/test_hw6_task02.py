@@ -1,6 +1,4 @@
-import datetime
-
-import pytest
+import datetime, pytest
 from freezegun import freeze_time
 
 from homework6.hw6_task02 import (DeadlineError, Homework, HomeworkResult,
