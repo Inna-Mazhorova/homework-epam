@@ -3,13 +3,8 @@ import datetime
 import pytest
 from freezegun import freeze_time
 
-from homework6.hw6_task02 import (
-    DeadlineError,
-    Homework,
-    HomeworkResult,
-    Student,
-    Teacher,
-)
+from homework6.hw6_task02 import (DeadlineError, Homework, HomeworkResult,
+                                  Student, Teacher)
 
 
 def test_class_teacher():
