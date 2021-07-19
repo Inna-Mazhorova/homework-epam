@@ -7,7 +7,6 @@ from homework6.hw6_task02 import (
     DeadlineError,
     Homework,
     HomeworkResult,
-    Person,
     Student,
     Teacher,
 )
