@@ -38,6 +38,3 @@ def number_returning_function(file_path):
         return True
     else:
         return False
-
-
-print(number_returning_function("some_trying_file.txt"))
