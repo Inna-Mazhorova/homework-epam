@@ -23,11 +23,11 @@ def file_opening_function(file_path):
         raise ValueError
     try:
         first_line = lines.strip()
-    except Exception:
+    except ValueError:
         raise ValueError
     try:
         first_line_int = int(first_line)
-    except Exception:
+    except ValueError:
         raise ValueError
     return first_line_int
 
