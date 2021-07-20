@@ -22,3 +22,14 @@ def with_temp_file(content):
 @with_temp_file(content="2\n")
 def test_number_returning_function_returns_True(file_path):
     assert number_returning_function(file_path) is True
+
+
+@with_temp_file(content="4\n")
+def test_number_returning_function_returns_False(file_path):
+    assert number_returning_function(file_path) is False
+
+
+@with_temp_file(content="stange_text\n")
+def test_number_returning_function_returns_ValueError(file_path):
+    with pytest.raises(ValueError):
+        number_returning_function(file_path)

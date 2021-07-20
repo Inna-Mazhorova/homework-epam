@@ -29,7 +29,7 @@ def count_dots_on_i(url):
     try:
         counter = site_content.count("i")
         return counter
-    except Exception:
+    except UnicodeError:
         return "Problems with counting"
 
 
