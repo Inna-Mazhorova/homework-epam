@@ -1,3 +1,4 @@
+import os
 import tempfile
 
 import pytest
@@ -5,15 +6,19 @@ import pytest
 from homework4.hw4_task01 import number_returning_function
 
 
-@pytest.fixture()
-def test_file_creation(tmp_path):
-    d = tmp_path / "sub"
-    d.mkdir()
-    p = d / "test.txt"
-    p.write_text("3")
-    # first_line_int = int(p.read_text())
-    return p
+def with_temp_file(content):
+    def create_temp_file(func):
+        def replacement_function(*args, **kwargs):
+            with tempfile.NamedTemporaryFile(mode="w+t") as data_file:
+                data_file.write(content)
+                data_file.flush()
+                return func(data_file.name, *args, **kwargs)
+
+        return replacement_function
+
+    return create_temp_file
 
 
-def test_number_returning_function_returns_number(test_file_creation):
-    assert number_returning_function("mydir/test.txt") == False
+@with_temp_file(content="2\n")
+def test_number_returning_function_returns_True(file_path):
+    assert number_returning_function(file_path) is True

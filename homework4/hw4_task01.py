@@ -22,7 +22,7 @@ def file_opening_function(file_path):
     except FileNotFoundError:
         raise ValueError
     try:
-        first_line = lines.rstrip("\n")
+        first_line = lines.strip()
     except Exception:
         raise ValueError
     try:
