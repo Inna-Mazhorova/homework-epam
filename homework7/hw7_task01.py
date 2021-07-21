@@ -1,5 +1,3 @@
-from collections import Counter
-from itertools import chain
 from typing import Any
 
 """
@@ -11,40 +9,16 @@ Tree can only contain basic structures like:
 """
 
 
-example_tree = {
-    "first": ["RED", "BLUE"],
-    "second": {
-        "simple_key": ["simple", "list", "of", "RED", "valued"],
-    },
-    "third": {
-        "abc": "BLUE",
-        "jhl": "RED",
-        "complex_key": {
-            "key1": "value1",
-            "key2": "RED",
-            "key3": ["a", "lot", "of", "values", {"nested_key": "RED"}],
-        }
-     },
-    "fourth": "RED",
-}
+def find_occurrences(tree: dict, element: Any) -> int:
 
-
-#def find_occurrences(tree: dict, element: Any) -> int:
-def find_occurrences(tree: dict) -> int:
-
-    #tree_keys = Counter(tree)
-
-    #tree_values = list(tree.values())
-   # nested_tree_values = tree_values.values()
-
-
-    #tree_values = list(chain(tree.values()))
-    #nested_tree_values = list(chain(tree_values.values()))
-    tree_values = [**tree]
-
-    return tree_values
-
-
-
-#print(find_occurrences(example_tree, "RED"))
-print(find_occurrences(example_tree))
+    all_tree_items = list(tree.items())
+    occurrences = 0
+    while all_tree_items:
+        next_element = all_tree_items.pop()
+        if next_element == element:
+            occurrences += 1
+        elif isinstance(next_element, dict):
+            all_tree_items.extend(next_element.items())
+        elif isinstance(next_element, (list, tuple, set)):
+            all_tree_items.extend(next_element)
+    return occurrences
