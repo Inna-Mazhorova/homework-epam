@@ -4,7 +4,7 @@ from homework8.hw8_task02 import TableData
 
 
 def test_books():
-    books = TableData("tests/homework8/example.sqlite", "books")
+    books = TableData("example.sqlite", "books")
     assert len(books) == 3
     authors = [item[1] for item in books]
     assert authors == ["Bradbury", "Huxley", "Orwell"]
@@ -16,7 +16,7 @@ def test_books():
 
 
 def test_presidents():
-    presidents = TableData("tests/homework8/example.sqlite", "presidents")
+    presidents = TableData("example.sqlite", "presidents")
 
     with pytest.raises(ValueError, match="There is no line with Putin"):
         presidents["Putin"]
