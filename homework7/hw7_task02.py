@@ -15,7 +15,7 @@ Examples:
 """
 
 
-def word_without_backspace(word: str):
+def word_without_backspace(word: str) -> str:
     if "#" not in word:
         return word
 
@@ -30,5 +30,5 @@ def word_without_backspace(word: str):
     return new_word
 
 
-def backspace_compare(first: str, second: str):
+def backspace_compare(first: str, second: str) -> bool:
     return word_without_backspace(first) == word_without_backspace(second)

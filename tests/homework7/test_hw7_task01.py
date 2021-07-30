@@ -35,3 +35,7 @@ empty_tree = {}
 
 def test_empty_count():
     assert find_occurrences(empty_tree, "RED") == 0
+
+
+def test_inexistent_word_count():
+    assert find_occurrences(example_tree, "green") == 0

@@ -11,3 +11,11 @@ def test_true_case_2():
 
 def test_false_case():
     assert not backspace_compare("a#c", "b")
+
+
+def test_empty_case():
+    assert backspace_compare("", "")
+
+
+def test_empty_case2():
+    assert backspace_compare("######", "#")
