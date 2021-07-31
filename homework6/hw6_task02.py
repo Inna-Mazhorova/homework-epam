@@ -60,14 +60,13 @@ class Homework:
 
 
 class HomeworkResult:
-    def __init__(self, author: str, homework: Homework, solution: str) -> None:
+    def __init__(self, author: "SomeClass", homework: Homework, solution: str) -> None:
+        if not isinstance(homework, Homework):
+            raise ValueError("Parameter you gave is not a Homework object")
+        self.homework = homework
         self.author = author
         self.solution = solution
         self.created = datetime.datetime.now()
-        if isinstance(homework, Homework):
-            self.homework = homework
-        else:
-            raise ValueError("Parameter you gave is not a Homework object")
 
 
 class Person:
@@ -77,34 +76,30 @@ class Person:
 
 
 class Teacher(Person):
-    homework_done = defaultdict(list)
+    homework_done = defaultdict(set)
 
     def create_homework(self, text: str, deadline: int) -> Homework:
         return Homework(text, deadline)
 
     def check_homework(self, homework_result: HomeworkResult):
-        if (
-            len(homework_result.solution) < 5
-            or homework_result.homework in self.homework_done
-        ):
+        if len(homework_result.solution) < 5:
             return False
-        else:
-            self.homework_done[homework_result.homework] = homework_result
-            return True
+
+        self.homework_done[homework_result.homework] = homework_result.solution
+        return True
 
     @classmethod
     def reset_results(cls, homework_unit=None):
 
-        if isinstance(homework_unit, Homework):
-            cls.homework_done[homework_unit] = []
+        if homework_unit:
+            del cls.homework_done[homework_unit]
         else:
             cls.homework_done.clear()
 
 
 class Student(Person):
     def do_homework(self, homework: str, solution: str) -> Union[None, "Homework"]:
-        self.solution = solution
-        if homework.is_active() == False:
+        if not homework.is_active():
             raise DeadlineError("You are late")
-        else:
-            return HomeworkResult(self, homework, solution)
+
+        return HomeworkResult(self, homework, solution)
