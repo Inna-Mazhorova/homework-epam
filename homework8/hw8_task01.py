@@ -27,8 +27,9 @@ class KeyValueStorage:
 
                 try:
                     value = int(value)
-                except:
-                    value
+                except ValueError:
+                    pass
+
                 if iskeyword(key) or not key.isidentifier():
                     raise ValueError(f"Value cannot be assigned to an attribute {key}.")
 

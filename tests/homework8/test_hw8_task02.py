@@ -9,10 +9,10 @@ def test_books():
     authors = [item[1] for item in books]
     assert authors == ["Bradbury", "Huxley", "Orwell"]
 
-    # books_list = []
-    # for book in books:
-    #     books_list.append(books['name'])
-    # assert books_list == ["Farenheit 451", "Brave New World", "1984"]
+    books_list = []
+    for book in books:
+        books_list.append(book["name"])
+    assert books_list == ["Farenheit 451", "Brave New World", "1984"]
 
 
 def test_presidents():
@@ -23,5 +23,5 @@ def test_presidents():
     with pytest.raises(ValueError, match="There is no line with Putin"):
         presidents["Putin"]
 
-    assert presidents["Yeltsin"] == ("Yeltsin", 999, "Russia")
+    assert tuple(presidents["Yeltsin"]) == ("Yeltsin", 999, "Russia")
     assert not "Romanov" in presidents

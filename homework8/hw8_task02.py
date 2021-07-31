@@ -1,6 +1,6 @@
 import sqlite3
 from contextlib import contextmanager
-from typing import Any, Generator, Optional
+from typing import Any, Iterator, Optional
 
 """
 
@@ -21,12 +21,15 @@ Avoid reading entire table into memory. When iterating through records, start re
 
 class TableData:
     def __init__(self, database: str, chosen_table: str) -> None:
+        if not chosen_table.isidentifier():
+            raise ValueError("Chosen table doesn't have a valid name.")
         self.database = database
         self.chosen_table = chosen_table
 
     @contextmanager
     def connection(self):
         conn = sqlite3.connect(self.database)
+        conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
         yield cursor
         cursor.close()
@@ -39,7 +42,9 @@ class TableData:
 
     def __getitem__(self, word: str) -> Optional[Any]:
         with self.connection() as cursor:
-            cursor.execute(f'SELECT * FROM {self.chosen_table} WHERE name = "{word}"')
+            cursor.execute(
+                f"SELECT * FROM {self.chosen_table} WHERE name =:name", {"name": word}
+            )
             result = cursor.fetchone()
             if result is None:
                 raise ValueError(f"There is no line with {word}")
@@ -47,9 +52,11 @@ class TableData:
 
     def __contains__(self, word: str) -> bool:
         with self.connection() as cursor:
-            cursor.execute(f'SELECT * FROM {self.chosen_table} WHERE name = "{word}"')
+            cursor.execute(
+                f"SELECT * FROM {self.chosen_table} WHERE name =:name", {"name": word}
+            )
             return bool(cursor.fetchall())
 
-    def __iter__(self) -> Generator:
+    def __iter__(self) -> Iterator:
         with self.connection() as cursor:
             yield from cursor.execute(f"SELECT * FROM {self.chosen_table}")
