@@ -81,7 +81,7 @@ class Teacher(Person):
     def create_homework(self, text: str, deadline: int) -> Homework:
         return Homework(text, deadline)
 
-    def check_homework(self, homework_result: HomeworkResult):
+    def check_homework(self, homework_result: HomeworkResult) -> bool:
         if len(homework_result.solution) < 5:
             return False
 
@@ -89,7 +89,7 @@ class Teacher(Person):
         return True
 
     @classmethod
-    def reset_results(cls, homework_unit=None):
+    def reset_results(cls, homework_unit: Homework = None) -> None:
 
         if homework_unit:
             del cls.homework_done[homework_unit]
