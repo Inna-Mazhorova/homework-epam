@@ -33,11 +33,3 @@ def universal_file_counter(
             for block in iter(partial(f.read, tokenizer), "") if tokenizer else f:
                 counter += 1
     return counter
-
-
-# print(universal_file_counter("C:/Users/Lantana/PycharmProjects/homework-epam/homework9/", ".txt", 4))
-print(
-    universal_file_counter(
-        "C:/Users/Lantana/PycharmProjects/homework-epam/homework9/", ".txt"
-    )
-)
