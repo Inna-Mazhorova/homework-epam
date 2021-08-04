@@ -17,7 +17,7 @@ def test_correct_sorted_merge():
 
 
 def test_error_in_file():
-    with pytest.raises(ValueError, match="file can only contain numbers"):
+    with pytest.raises(ValueError):
         list(
             merge_sorted_files(
                 ["tests/homework9/file3.txt", "tests/homework9/file2.txt"]

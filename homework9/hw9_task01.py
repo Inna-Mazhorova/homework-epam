@@ -19,10 +19,10 @@ from typing import Generator, Iterator, List, Union
 def number_generation(file_name: Union[Path, str]) -> Iterator:
     with open(file_name) as text:
         try:
-            result = map(lambda x: int(x.rstrip("\n")), iter(text.readlines()))
+            result = map(lambda x: int(x.rstrip("\n")), text.readlines())
+            return iter(result)
         except ValueError:
             raise ValueError("file can only contain numbers")
-        return result
 
 
 def merge_sorted_files(file_list: List[Union[Path, str]]) -> Generator:
