@@ -13,19 +13,16 @@ list(merge_sorted_files(["file1.txt", "file2.txt"]))
 """
 import heapq
 from pathlib import Path
-from typing import Generator, List, Union
+from typing import Generator, Iterator, List, Union
 
 
-def number_generation(file_name: Union[Path, str]) -> Generator:
+def number_generation(file_name: Union[Path, str]) -> Iterator:
     with open(file_name) as text:
-        while True:
-            number = text.read(2).rstrip("\n")
-            if not number:
-                break
-            try:
-                yield int(number)
-            except ValueError:
-                raise ValueError("file can only contain numbers")
+        try:
+            result = map(lambda x: int(x.rstrip("\n")), iter(text.readlines()))
+        except ValueError:
+            raise ValueError("file can only contain numbers")
+        return result
 
 
 def merge_sorted_files(file_list: List[Union[Path, str]]) -> Generator:

@@ -4,20 +4,27 @@ Do it both ways: as a class and as a generator.
 """
 
 from contextlib import contextmanager
+from types import TracebackType
+from typing import Generator, Type
 
 """
 1) As a class
 """
 
 
-class ContextMan_Supressor:
-    def __init__(self, exception):
+class ContextManSupressor:
+    def __init__(self, exception: Type[BaseException]) -> None:
         self.exception = exception
 
-    def __enter__(self):
+    def __enter__(self) -> None:
         pass
 
-    def __exit__(self, exc_type, exc_value, traceback):
+    def __exit__(
+        self,
+        exc_type: Type[BaseException],
+        exc_value: Exception,
+        traceback: Type[TracebackType],
+    ) -> bool:
         return True
 
 
@@ -27,7 +34,7 @@ class ContextMan_Supressor:
 
 
 @contextmanager
-def supressing(*exceptions):
+def supressing(*exceptions: Type[BaseException]) -> Generator:
     try:
         yield
     except exceptions:
