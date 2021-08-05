@@ -1,5 +1,6 @@
-import os
+import pathlib
 from functools import partial
+from glob import glob
 from pathlib import Path
 from typing import Callable, List, Optional
 
@@ -16,10 +17,7 @@ For dir with two files from hw1.py:
 
 
 def file_list_creator(dir_path: Path, file_extension: str) -> List:
-    file_list = []
-    for file in os.listdir(dir_path):
-        if file.endswith(file_extension):
-            file_list.append(os.path.join(dir_path, file))
+    file_list = list(pathlib.Path("r" + dir_path).glob("*." + file_extension))
     return file_list
 
 
