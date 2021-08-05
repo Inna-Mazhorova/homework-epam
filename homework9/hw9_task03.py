@@ -17,7 +17,7 @@ For dir with two files from hw1.py:
 
 
 def file_list_creator(dir_path: Path, file_extension: str) -> List:
-    file_list = list(pathlib.Path("r" + dir_path).glob("*." + file_extension))
+    file_list = list(pathlib.Path(dir_path).glob("*." + file_extension))
     return file_list
 
 
