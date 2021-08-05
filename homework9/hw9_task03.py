@@ -1,6 +1,5 @@
+import glob
 import pathlib
-from functools import partial
-from glob import glob
 from pathlib import Path
 from typing import Callable, List, Optional
 
@@ -27,7 +26,6 @@ def universal_file_counter(
     counter = 0
     for file in file_list_creator(dir_path, file_extension):
         with open(file, "r") as f:
-
-            for block in iter(partial(f.read, tokenizer), "") if tokenizer else f:
-                counter += 1
+            for block in f:
+                counter += len(tokenizer(block)) if tokenizer else 1
     return counter
