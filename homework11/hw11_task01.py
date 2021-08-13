@@ -21,3 +21,21 @@ class SizesEnum(metaclass=SimplifiedEnum):
 assert ColorsEnum.RED == "RED"
 assert SizesEnum.XL == "XL"
 """
+
+
+class SimplifiedEnum(type):
+    def __new__(cls, name, bases, dict):
+        new_dict = {}
+        key = f"_{name}__keys"
+        for value in dict[key]:
+            new_dict[value] = value
+
+        return super().__new__(cls, name, bases, new_dict)
+
+
+class ColorsEnum(metaclass=SimplifiedEnum):
+    __keys = ("RED", "BLUE", "ORANGE", "BLACK")
+
+
+class SizesEnum(metaclass=SimplifiedEnum):
+    __keys = ("XL", "L", "M", "S", "XS")
