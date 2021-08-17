@@ -1,16 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-from teacher.models import (
-    Homework,
-    HomeworkResult,
-    Student,
-    Teacher,
-    check_homework,
-    create_homework,
-    do_homework,
-    is_active,
-)
+from teacher.models import *
 
 
 def define_objects(apps, schema_editor):
