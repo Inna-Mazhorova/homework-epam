@@ -1,8 +1,5 @@
-# import json
-# import re
-# from functools import reduce
 import asyncio
-from concurrent.futures import ProcessPoolExecutor
+import json
 from itertools import chain
 
 import aiohttp
@@ -31,9 +28,8 @@ P/E компании (информация находится справа от 
 
 PAGES_URLS = [
     f"https://markets.businessinsider.com/index/components/s&p_500?p={page}"
-    for page in range(1, 12)
+    for page in range(1, 6)
 ]
-# companies_url = []
 
 
 def get_usd_roe() -> float:
@@ -44,23 +40,11 @@ def get_usd_roe() -> float:
     return float(usd_roe.replace(",", "."))
 
 
-async def get_soup_object(urls):
-    """function that makes a soup object for all the pages in given url"""
-    soup_list = []
-    tasks = [asyncio.create_task(get_one_page_soup_object(url)) for url in urls]
-    await asyncio.gather(*tasks)
-    for task in tasks:
-        soup_list.append(task.result())
-    return soup_list
-
-
 async def get_one_page_soup_object(url):
     """function that makes a soup object for 1 page in given url"""
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
-            soup = BeautifulSoup(await response.text(), "lxml")
-
-        return soup
+            return await response.text()
 
 
 def get_link_from_main_table(soup):
@@ -82,7 +66,6 @@ def get_link_from_main_table(soup):
 
 def get_data_from_main_table(soup):
     """function that makes a list of year growth(in percents)"""
-    # soup = asyncio.run(get_one_page_soup_object(url))
     paths_to_data = soup.find_all(
         "span", {"class": ["colorGreen", "colorRed", "colorDefault"]}
     )
@@ -95,44 +78,42 @@ def get_data_from_main_table(soup):
     return year_growth_list
 
 
-def get_all_links(url):
+def get_all_links(soup_list):
     """function that makes a dictionary of companies names and links to their individual urls for all pages"""
     companies_dict_all_pages = {}
 
-    for i in asyncio.run(get_soup_object(PAGES_URLS)):
+    for i in soup_list:
         companies_dict_all_pages.update(get_link_from_main_table(i))
-    # return [v for v in companies_dict_all_pages.values()][0]
     return companies_dict_all_pages
 
 
-def get_all_data_from_main_table(url):
+def get_all_data_from_main_table(soup_list):
     """function that makes a list of year growth(in percents) for all pages"""
     year_growth_list_all_pages = []
 
-    for i in asyncio.run(get_soup_object(PAGES_URLS)):
+    for i in soup_list:
         year_growth_list_all_pages.append(get_data_from_main_table(i))
     return year_growth_list_all_pages
 
 
-def get_data_from_individual_company_pages(url):
+def get_data_from_individual_company_pages(soup):
     """function that parses individual company's url and forms a dataframe with company_code, current_price, p/e ratio and potential_profit"""
     individual_company_data = []
-
-    soup = asyncio.run(get_one_page_soup_object(url))
-
+    usd_roe = get_usd_roe()
     company_code = (
         soup.find("meta", {"name": "description"}).get("content").split(":")[0]
     )
-    current_price = float(
+    current_price_usd = float(
         soup.find("span", {"class": "price-section__current-value"}).text.replace(
             ",", ""
         )
     )
+    current_price = round(current_price_usd * usd_roe)
     try:
         p_e_ratio = float(
             soup.find(
                 "div", {"class": "snapshot__header"}, string="P/E Ratio"
-            ).previous_sibling
+            ).previous_sibling.replace(",", "")
         )
     except AttributeError:
         p_e_ratio = 0
@@ -155,7 +136,7 @@ def get_data_from_individual_company_pages(url):
     except AttributeError:
         week_52_high = 0
 
-    unreal_profit_per_year_percent = (week_52_high / week_52_low - 1) * 100
+    unreal_profit_per_year_percent = round((week_52_high / week_52_low - 1) * 100, 2)
 
     individual_company_data.append(
         [company_code, current_price, p_e_ratio, unreal_profit_per_year_percent]
@@ -177,33 +158,70 @@ def get_data_from_individual_company_pages(url):
     return company_df
 
 
-def get_all_data_from_individual_company_pages(url):
-    """function that makes a dataframe out of individual_company_pages"""
-    url_list = [v for v in get_all_links(url).values()]
-    # companies_df = pd.DataFrame(columns=["company_code", "current_price", "P_E", "potential_profit_percent"])
-    companies_df = get_data_from_individual_company_pages(url_list[0])
-    # with ProcessPoolExecutor() as pool:
-    # next_company_df = pool.map(get_data_from_individual_company_pages(url_list[1:]))
+async def main() -> None:
 
-    for i in range(1, len(url_list)):
-        next_company_df = get_data_from_individual_company_pages(url_list[i])
+    our_url = "https://markets.businessinsider.com/index/components/s&p_500"
+
+    # сохраняем soup для всех страниц главного сайта
+    soup_list = []
+    urls = [asyncio.create_task(get_one_page_soup_object(url)) for url in PAGES_URLS]
+    await asyncio.gather(*urls)
+    for url in urls:
+        soup = BeautifulSoup(url.result(), "lxml")
+        soup_list.append(soup)
+
+    # делаем словарь с url для всех компаний
+    companies_dict_all_pages = get_all_links(soup_list)
+
+    # сохраняем с главной страницы годовой рост для всех компаний
+    year_growth_list_all_pages = get_all_data_from_main_table(soup_list)
+    year_growth = list(chain.from_iterable(year_growth_list_all_pages))
+    companies_df = pd.DataFrame(
+        columns=["company_code", "current_price", "P_E", "potential_profit_percent"]
+    )
+
+    # парсим индивидуальные страницы компаний и создаём DataFrame со всеми данными
+    url_list = [v for v in companies_dict_all_pages.values()]
+
+    len_urls = len(url_list)
+    tasks = [
+        asyncio.create_task(get_one_page_soup_object(url_list[i]))
+        for i in range(len_urls)
+    ]
+    await asyncio.gather(*tasks)
+    for task in tasks:
+        soup = BeautifulSoup(task.result(), "lxml")
+        next_company_df = get_data_from_individual_company_pages(soup)
         companies_df = pd.concat([companies_df, next_company_df], ignore_index=True)
-    # return len(url_list)
-    return companies_df
-
-
-def combine_data_from_individual_and_main(url):
-    """function that makes a dataframe out of individual_company_pages and main_page"""
-    companies_df = get_all_data_from_individual_company_pages(url)
-    year_growth = list(chain.from_iterable(get_all_data_from_main_table(url)))
+    # добавляем данные о year_growth
     companies_df["year_growth"] = pd.Series(year_growth, index=companies_df.index)
 
-    return companies_df
+    companies_highest_price = companies_df.sort_values(
+        by="current_price", ascending=False
+    ).head(10)
+    companies_lowest_pe = companies_df.sort_values(by="P_E", ascending=True).head(10)
+    companies_highest_year_growth = companies_df.sort_values(
+        by="year_growth", ascending=False
+    ).head(10)
+    companies_highest_potential_profit = companies_df.sort_values(
+        by="potential_profit_percent", ascending=False
+    ).head(10)
+
+    companies_highest_potential_profit.to_json(
+        "companies_highest_potential_profit.json", orient="records", lines=True
+    )
+    companies_highest_price.to_json(
+        "companies_highest_price.json", orient="records", lines=True
+    )
+    companies_lowest_pe.to_json(
+        "companies_lowest_pe.json", orient="records", lines=True
+    )
+    companies_highest_year_growth.to_json(
+        "companies_highest_year_growth.json", orient="records", lines=True
+    )
 
 
-# companies_df = combine_data_from_individual_and_main("https://markets.businessinsider.com/index/components/s&p_500")
-our_url = "https://markets.businessinsider.com/index/components/s&p_500"
-print(get_all_data_from_individual_company_pages(our_url))
-# print(asyncio.run(get_soup_object(PAGES_URLS)))
-# print(get_all_data_from_main_table(our_url))
-# print(get_usd_roe())
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
+    loop.close()

@@ -1,0 +1,70 @@
+{
+    "company_code": "AMZN",
+    "current_price": 237925,
+    "P_E": 79.54,
+    "potential_profit_percent": 31.42,
+    "year_growth": 4.64,
+}
+{
+    "company_code": "GOOG",
+    "current_price": 201657,
+    "P_E": 30.01,
+    "potential_profit_percent": 99.08,
+    "year_growth": 83.6,
+}
+{
+    "company_code": "GOOGL",
+    "current_price": 200475,
+    "P_E": 30.0,
+    "potential_profit_percent": 97.36,
+    "year_growth": 83.07,
+}
+{
+    "company_code": "BKNG",
+    "current_price": 153914,
+    "P_E": 460.92,
+    "potential_profit_percent": 58.33,
+    "year_growth": 23.87,
+}
+{
+    "company_code": "CMG",
+    "current_price": 137560,
+    "P_E": 129.05,
+    "potential_profit_percent": 63.16,
+    "year_growth": 63.16,
+}
+{
+    "company_code": "AZO",
+    "current_price": 119160,
+    "P_E": 16.46,
+    "potential_profit_percent": 53.49,
+    "year_growth": 38.76,
+}
+{
+    "company_code": "BLK",
+    "current_price": 66563,
+    "P_E": 20.99,
+    "potential_profit_percent": 74.13,
+    "year_growth": 56.03,
+}
+{
+    "company_code": "EQIX",
+    "current_price": 60553,
+    "P_E": 169.88,
+    "potential_profit_percent": 44.12,
+    "year_growth": 11.81,
+}
+{
+    "company_code": "CHTR",
+    "current_price": 57952,
+    "P_E": 43.09,
+    "potential_profit_percent": 38.37,
+    "year_growth": 27.56,
+}
+{
+    "company_code": "BIO",
+    "current_price": 57467,
+    "P_E": 54.21,
+    "potential_profit_percent": 65.56,
+    "year_growth": 54.26,
+}

@@ -1,0 +1,70 @@
+{
+    "company_code": "CVX",
+    "current_price": 7243,
+    "P_E": -427.45,
+    "potential_profit_percent": 73.55,
+    "year_growth": 12.89,
+}
+{
+    "company_code": "DVN",
+    "current_price": 1964,
+    "P_E": -167.13,
+    "potential_profit_percent": 313.31,
+    "year_growth": 152.75,
+}
+{
+    "company_code": "XOM",
+    "current_price": 4052,
+    "P_E": -125.36,
+    "potential_profit_percent": 108.68,
+    "year_growth": 30.28,
+}
+{
+    "company_code": "INCY",
+    "current_price": 5520,
+    "P_E": -63.09,
+    "potential_profit_percent": 41.05,
+    "year_growth": -22.56,
+}
+{
+    "company_code": "COP",
+    "current_price": 3986,
+    "P_E": -40.25,
+    "potential_profit_percent": 130.91,
+    "year_growth": 32.8,
+}
+{
+    "company_code": "HES",
+    "current_price": 4835,
+    "P_E": -17.79,
+    "potential_profit_percent": 161.38,
+    "year_growth": 62.64,
+}
+{
+    "company_code": "EXPE",
+    "current_price": 10354,
+    "P_E": -15.04,
+    "potential_profit_percent": 116.81,
+    "year_growth": 88.98,
+}
+{
+    "company_code": "HST",
+    "current_price": 1124,
+    "P_E": -13.77,
+    "potential_profit_percent": -100.0,
+    "year_growth": 45.68,
+}
+{
+    "company_code": "APA",
+    "current_price": 1240,
+    "P_E": -13.09,
+    "potential_profit_percent": 226.17,
+    "year_growth": 22.26,
+}
+{
+    "company_code": "GPS",
+    "current_price": 1954,
+    "P_E": -11.51,
+    "potential_profit_percent": 163.45,
+    "year_growth": 160.1,
+}
