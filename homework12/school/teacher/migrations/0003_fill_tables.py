@@ -16,22 +16,20 @@ def define_objects(apps, schema_editor):
     advanced_python_teacher = Teacher(first_name="Smetanin", last_name="Aleksandr")
     advanced_python_teacher.save()
 
-    oop_hw = create_homework(teacher=opp_teacher, text="Learn OOP", deadline=5)
+    oop_hw = opp_teacher.create_homework(text="Learn OOP", deadline=5)
     oop_hw.save()
-    docs_hw = create_homework(
-        teacher=advanced_python_teacher, text="Read docs", deadline=6
-    )
+    docs_hw = advanced_python_teacher.create_homework(text="Read docs", deadline=6)
     docs_hw.save()
 
-    result_1 = do_homework(good_student, oop_hw, "I have done this hw")
-    result_2 = do_homework(good_student, docs_hw, "I have done this hw")
+    result_1 = good_student.do_homework(oop_hw, "I have done this hw")
+    result_2 = good_student.do_homework(docs_hw, "I have done this hw")
 
-    result_3 = do_homework(lazy_student, oop_hw, "bad")
-    result_4 = do_homework(lazy_student, docs_hw, "bad")
+    result_3 = lazy_student.do_homework(oop_hw, "bad")
+    result_4 = lazy_student.do_homework(docs_hw, "bad")
 
     list(
         map(
-            check_homework,
+            opp_teacher.check_homework,
             [
                 result_1,
                 result_2,

@@ -20,30 +20,11 @@ class Person(models.Model):
 
 
 class Teacher(Person):
-    def __str__(self) -> str:
-        return f"{self.last_name} {self.first_name}"
+    def create_homework(self, text: str, deadline: int) -> "SomeClass":
+        return Homework(author=self, text=text, deadline=timedelta(days=deadline))
 
-
-def create_homework(teacher: Teacher, text: str, deadline: int):
-    return Homework(author=teacher, text=text, deadline=timedelta(days=deadline))
-
-
-def check_homework(homework_result: "SomeClass") -> bool:
-    homework_result.done = len(homework_result.solution) > 5
-
-
-class Student(Person):
-    def __str__(self) -> str:
-        return f"{self.last_name} {self.first_name}"
-
-
-def do_homework(
-    student: Student, homework: "SomeClass", solution: str
-) -> Union[None, "SomeClass"]:
-    if not is_active(homework):
-        raise DeadlineError("You are late")
-
-    return HomeworkResult(author=student, homework=homework, solution=solution)
+    def check_homework(self, homework_result: "SomeClass") -> bool:
+        homework_result.done = len(homework_result.solution) > 5
 
 
 class Homework(models.Model):
@@ -55,9 +36,18 @@ class Homework(models.Model):
     def __str__(self) -> str:
         return self.text
 
+    def is_active(self) -> bool:
+        return timezone.now() - self.created < self.deadline
 
-def is_active(homework: Homework) -> bool:
-    return timezone.now() - homework.created < homework.deadline
+
+class Student(Person):
+    def do_homework(
+        self, homework: "SomeClass", solution: str
+    ) -> Union[None, "SomeClass"]:
+        # if not is_active(self):
+        #     raise DeadlineError("You are late")
+
+        return HomeworkResult(author=self, homework=homework, solution=solution)
 
 
 class HomeworkResult(models.Model):

@@ -6,8 +6,8 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("teacher", "0002_auto_20210817_1700"),
-        ("teacher", "0003_auto_fill_tables"),
+        ("teacher", "0002_add_columns"),
+        ("teacher", "0003_fill_tables"),
     ]
 
     operations = []
