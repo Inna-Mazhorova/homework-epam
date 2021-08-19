@@ -2,12 +2,7 @@ import requests
 import requests_mock
 from bs4 import BeautifulSoup
 
-from homework10.hw10_task01 import (
-    get_data_from_individual_company_pages,
-    get_data_from_main_table,
-    get_link_from_main_table,
-    get_usd_roe,
-)
+from homework10.hw10_task01 import *
 
 
 def test_dollar_roe(requests_mock):
