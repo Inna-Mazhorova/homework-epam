@@ -19,14 +19,31 @@ class Person(models.Model):
         return f"{self.last_name} {self.first_name}"
 
 
-class Teacher(Person, models.Model):
+class Teacher(Person):
     def __str__(self) -> str:
         return f"{self.last_name} {self.first_name}"
 
 
-class Student(Person, models.Model):
+def create_homework(teacher: Teacher, text: str, deadline: int):
+    return Homework(author=teacher, text=text, deadline=timedelta(days=deadline))
+
+
+def check_homework(homework_result: "SomeClass") -> bool:
+    homework_result.done = len(homework_result.solution) > 5
+
+
+class Student(Person):
     def __str__(self) -> str:
         return f"{self.last_name} {self.first_name}"
+
+
+def do_homework(
+    student: Student, homework: "SomeClass", solution: str
+) -> Union[None, "SomeClass"]:
+    if not is_active(homework):
+        raise DeadlineError("You are late")
+
+    return HomeworkResult(author=student, homework=homework, solution=solution)
 
 
 class Homework(models.Model):
@@ -39,6 +56,10 @@ class Homework(models.Model):
         return self.text
 
 
+def is_active(homework: Homework) -> bool:
+    return timezone.now() - homework.created < homework.deadline
+
+
 class HomeworkResult(models.Model):
 
     author = models.ForeignKey(Student, on_delete=models.CASCADE)
@@ -49,24 +70,3 @@ class HomeworkResult(models.Model):
 
     def __str__(self) -> str:
         return self.homework
-
-
-def is_active(homework: Homework) -> bool:
-    return timezone.now() - homework.created < homework.deadline
-
-
-def create_homework(teacher: Teacher, text: str, deadline: int):
-    return Homework(author=teacher, text=text, deadline=timedelta(days=deadline))
-
-
-def do_homework(
-    student: Student, homework: Homework, solution: str
-) -> Union[None, "SomeClass"]:
-    if not is_active(homework):
-        raise DeadlineError("You are late")
-
-    return HomeworkResult(author=student, homework=homework, solution=solution)
-
-
-def check_homework(homework_result: "SomeClass") -> bool:
-    homework_result.done = len(homework_result.solution) > 5
