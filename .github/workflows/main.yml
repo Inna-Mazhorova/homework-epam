@@ -16,7 +16,7 @@ jobs:
       - name: Run script
         run: |
 
-          pip install black isort pytest numpy freezegun requests requests_mock bs4
+          pip install black isort pytest numpy freezegun requests requests_mock bs4 aiohttp
 
           ls -la
           black --check .
