@@ -44,8 +44,8 @@ class Student(Person):
     def do_homework(
         self, homework: "SomeClass", solution: str
     ) -> Union[None, "SomeClass"]:
-        # if not is_active(self):
-        #     raise DeadlineError("You are late")
+        if not homework.is_active(self):
+            raise DeadlineError("You are late")
 
         return HomeworkResult(author=self, homework=homework, solution=solution)
 
