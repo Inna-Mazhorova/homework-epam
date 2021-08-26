@@ -1,0 +1,70 @@
+{
+    "company_code": "FANG",
+    "current_price": 5265,
+    "P_E": 15.58,
+    "potential_profit_percent": 333.9,
+    "year_growth": 79.79,
+}
+{
+    "company_code": "DVN",
+    "current_price": 1964,
+    "P_E": -167.13,
+    "potential_profit_percent": 313.31,
+    "year_growth": 152.75,
+}
+{
+    "company_code": "DISCA",
+    "current_price": 2091,
+    "P_E": 9.18,
+    "potential_profit_percent": 309.75,
+    "year_growth": 34.53,
+}
+{
+    "company_code": "ENPH",
+    "current_price": 12069,
+    "P_E": 125.98,
+    "potential_profit_percent": 290.17,
+    "year_growth": 208.68,
+}
+{
+    "company_code": "DISCK",
+    "current_price": 1986,
+    "P_E": 8.03,
+    "potential_profit_percent": 284.66,
+    "year_growth": 39.51,
+}
+{
+    "company_code": "APA",
+    "current_price": 1240,
+    "P_E": -13.09,
+    "potential_profit_percent": 226.17,
+    "year_growth": 22.26,
+}
+{
+    "company_code": "FCX",
+    "current_price": 2507,
+    "P_E": 46.28,
+    "potential_profit_percent": 224.19,
+    "year_growth": 149.53,
+}
+{
+    "company_code": "ALB",
+    "current_price": 15979,
+    "P_E": 35.35,
+    "potential_profit_percent": 206.11,
+    "year_growth": 158.55,
+}
+{
+    "company_code": "FTNT",
+    "current_price": 21818,
+    "P_E": 43.03,
+    "potential_profit_percent": 190.12,
+    "year_growth": 92.94,
+}
+{
+    "company_code": "DXC",
+    "current_price": 2690,
+    "P_E": 12.95,
+    "potential_profit_percent": 182.42,
+    "year_growth": 133.67,
+}
