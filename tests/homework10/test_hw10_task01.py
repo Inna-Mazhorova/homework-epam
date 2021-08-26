@@ -139,7 +139,7 @@ def test_getting_data_from_individual_company_page():
         text = file.read()
     soup = BeautifulSoup(text, "lxml")
     company_df = get_data_from_individual_company_pages(soup)
+
     assert company_df["company_code"][0] == "ADBE"
-    assert company_df["current_price"][0] == 47419
     assert company_df["P_E"][0] == 47.1
     assert company_df["potential_profit_percent"][0] == 52.7
